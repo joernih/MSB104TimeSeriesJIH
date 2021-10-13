@@ -17,20 +17,21 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(MSB104TimeSeriesJIH)
 library(ggplot2)
-```
-
-```{r}
-# data(package='MSB104TimeSeriesJIH')
-covidts <- MSB104TimeSeriesJIH::COVID19
+library(dplyr)
 ```
 
 ## Hospitaliztion and covid19
 
-```{r}
-sel_cou <- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK','IND')[c(1,2)]
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+# data(package='MSB104TimeSeriesJIH')
+covidts <- MSB104TimeSeriesJIH::COVID19
+sel_cou <- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK')
 a <- plot19ts(sel_cou=sel_cou,covid19df=covidts)
-gridExtra::grid.arrange()
 ```
 
 
+
+```{r}
+a
+```
 
