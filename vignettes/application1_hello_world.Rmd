@@ -18,4 +18,9 @@ knitr::opts_chunk$set(
 library(MSB104TimeSeriesJIH)
 ```
 
-Test new function 
+Test new function:
+
+```{r}
+MSB104TimeSeriesJIH::hello(name="Jørn")
+```
+

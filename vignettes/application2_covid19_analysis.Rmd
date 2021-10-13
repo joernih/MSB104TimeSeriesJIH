@@ -1,0 +1,36 @@
+---
+title: "application2_covid19_analysis"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{application2_covid19_analysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MSB104TimeSeriesJIH)
+library(ggplot2)
+```
+
+```{r}
+# data(package='MSB104TimeSeriesJIH')
+covidts <- MSB104TimeSeriesJIH::COVID19
+```
+
+## Hospitaliztion and covid19
+
+```{r}
+sel_cou <- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK','IND')[c(1,2)]
+a <- plot19ts(sel_cou=sel_cou,covid19df=covidts)
+gridExtra::grid.arrange()
+```
+
+
+

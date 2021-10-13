@@ -3,5 +3,6 @@ pkgdown: 1.6.1.9001
 pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
 articles:
   application1_hello_world: application1_hello_world.html
-last_built: 2021-10-13T15:27Z
+  application2_covid19_analysis: application2_covid19_analysis.html
+last_built: 2021-10-13T15:39Z
 

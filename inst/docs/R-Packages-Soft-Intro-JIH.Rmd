@@ -534,7 +534,7 @@ plot19ts <- function(sel_cou=NULL,covid19df=NULL, yvar='hosp'){
 **Covid 19 plot vignette**
 
 ```{r eval=FALSE, include=TRUE}
-usethis::use_vignette("application2_covid19.Rmd")
+usethis::use_vignette("application2_covid19_analysis")
 ```
 
 ![](bilder/covid19vignette.png) 
