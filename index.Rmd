@@ -1,0 +1,22 @@
+---
+title: "Econometrics (MSB104) Application 1 and 2"
+output: github_document
+#output: html_document
+#output: html_notebook
+---
+
+```{r, eval=F, echo=F}
+devtools::document()
+devtools::install()
+.libPaths()
+```
+
+```{r, eval=F, echo=F}
+rmarkdown::render("index.Rmd")
+pkgdown::build_site()
+pkgdown::build_home()
+pkgdown::build_articles()
+usethis::use_readme_rmd()
+usethis::use_news_md()
+usethis::use_github_links()
+```

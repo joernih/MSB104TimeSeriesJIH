@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>R-packages</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jørn I. Halvorsen" />
+    <script src="libs/header-attrs-2.10/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x6b7ebac53354232885cb8d6c6e26dbc","expires":1}</script>
+    <script src="libs/himalaya-1.1.0/himalaya.js"></script>
+    <script src="libs/js-cookie-3.0.0/js.cookie.js"></script>
+    <link href="libs/editable-0.2.6/editable.css" rel="stylesheet" />
+    <script src="libs/editable-0.2.6/editable.js"></script>
+    <link href="libs/tile-view-0.2.6/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view-0.2.6/tile-view.js"></script>
+    <script src="libs/fabric-4.3.1/fabric.min.js"></script>
+    <link href="libs/xaringanExtra-scribble-0.0.1/scribble.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-scribble-0.0.1/scribble.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', function() { window.xeScribble = new Scribble({"pen_color":["#FF0000"],"pen_size":3,"eraser_size":30,"palette":[]}) })</script>
+    <script src="libs/xaringanExtra-webcam-0.0.1/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
+    <link href="libs/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset-0.2.6/panelset.js"></script>
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# R-packages
+## A soft introduction
+### Jørn I. Halvorsen
+### 2018/06/1 (updated: 2021-10-13)
+
+---
+
+
+
+
+
+
+
+
+# Introduction
+
+“Seriously, it doesn’t have to be about sharing your code (although that is an added benefit!). It is about saving yourself time.” Organising code in a package makes your life easier because packages come with conventions.
+&gt; [Hilary Parker (2014)](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
+
+[Parker (2014)](#bib-parkerhilary) 
+
+---
+
+## Start up knowledge
+- [Writing-an-r-package-from-scratch (Hilary Parker)](https://www.hvitfeldt.me/blog/usethis-workflow-for-package-development/)
+
+## General documentation
+- [R-packages, [Wickham (2015)](#bib-wickham2015r) 1st edition](http://r-pkgs.had.co.nz)
+- [R-packages, 2nd edition](https://r-pkgs.org/preface.html)
+- [Package development](/cheatsheets/cheatsheetpackage-development.pdf)
+
+Some sub-themes in relation to this that we will touch:
+
+.pull-left[
+
+**Data wrangling**
+
+- [dplyr](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+]
+
+.pull-right[
+
+**Graphical representation**
+
+- [ggplot2](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
+]
+
+.pull-left[
+
+]
+
+**Webpage development and presentations**
+
+- [pgkdown](https://pkgdown.r-lib.org/)
+- [xaringan](https://github.com/yihui/xaringan)
+- [xaringanExtra](https://github.com/gadenbuie/xaringanExtra)
+
+---
+
+
+
+## Outline of today's lecture 
+
+![](R-Packages-Soft-Intro-JIH_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+
+---
+
+# 1. Creating a package
+
+## Before inititating the package
+
+**System setup**
+
+
+```r
+install.packages(c("devtools", "roxygen2","usethis",
+"rstudioapi", "testthat", "knitr", "available", "pgkdown","purrr"))
+```
+
+**For running this presentation**
+
+```r
+install.packages(c("xaringan"))
+devtools::install_github("gadenbuie/xaringanExtra")
+```
+
+---
+
+There are three formal requirements:
+
+- The name can only consist of letters, numbers, and period. Must not start with a number
+- It must start with a letter
+- It cannot end with a period
+
+- Pakkenavn:
+  - MSB104TimeSeries&amp;lt;your_init&amp;gt;
+    
+---
+
+**RStudio IDE** (option A)
+
+File -&gt; New Project -&gt; New Directory -&gt; R package
+![](bilder/packagecreate.png) 
+
+---
+
+**Console** (option B)
+
+
+```r
+package_name &lt;- 'MSB104TimeSeries&lt;YourInit&gt;'
+usethis::create_package(package_name, rstudio=T, open=T)
+```
+
+---
+
+# 2. Publishing the package to a repository 
+
+
+```bash
+git init --initial-branch=main
+git add --all
+git commit -m "first commit"
+```
+
+Now, for either of the options
+1. Go to your own [github](https://github.com) or [gitlab](https://gitlab.com) account
+1. Create a new project (public) with the same name: MSB104TimeSeries&amp;lt;your_init&amp;gt;  
+
+1. After that, run the following commands from your RStudio terminal
+
+
+```bash
+a) Github
+git remote add origin https://github.com/&lt;your_github_account&gt;/MSB104TimeSeries&lt;your_init&gt;.git
+b) Gitlab
+git remote add origin https://gilab.com/&lt;your_github_account&gt;/MSB104TimeSeries&lt;your_init&gt;.git
+git branch -M main
+git push -u origin main
+```
+
+---
+
+Should look something like this
+
+![](bilder/gitproject.png)
+
+---
+
+# 3. Overview of the different package components
+
+In general consist of:
+
+- Code (R/)
+- Package metadata (DESCRIPTION)
+- Object documentation (man/)
+- Vignettes (vignettes/)
+- Testing (tests/)
+- Namespaces (NAMESPACE)
+- Data (data/)
+- Compiled code (src/)
+- Installed files (inst/)
+- Other components
+
+Note: In addition to this, we have also the option to create our own folders
+
+---
+
+Let's us now first have a closer look at some of these general components:
+
+- Code (R/)
+- Namespaces (NAMESPACE)
+- Package metadata (DESCRIPTION)
+- Object documentation (man/)
+- Data (data/)
+- Namespaces (NAMESPACE)
+
+---
+
+## Code (R/)
+
+The first principle of using a package is that all R code goes in R/.
+
+We can open our hello function directly from the console by using
+- usethis::use_r("hello")
+
+Which gives us
+
+
+```r
+hello &lt;- function() {
+          tekst &lt;- paste("Hello world!")
+	  print(tekst)
+}
+```
+
+Change this to
+
+
+```r
+hello &lt;- function(name=NULL) {
+          tekst &lt;- paste("Hello world! My name is", name)
+	  print(tekst)
+}
+```
+
+---
+
+## Namespaces (NAMESPACE)
+
+Namespaces make your packages self-contained in two ways: the imports and the exports. The imports defines how a function in one package finds a function in another.
+
+The exports helps you avoid conflicts with other packages by specifying which functions are available outside of your package (internal functions are available only within your package and can’t easily be used by another package). 
+
+---
+
+### With RStudio IDE
+
+- Add roxygen comments to your .R files.
+  - Roxygen comments start with #' and come before a function. All the roxygen lines preceding a function are called a block. Each line should be wrapped in the same way as your code, normally at 80 characters.
+
+- To make it simple in the beginning, we just add a couple of lines:
+
+
+```r
+#' This is a hello function with a name argument
+#' @export
+hello &lt;- function(name=NULL) {
+          tekst &lt;- paste("Hello world! My name is", name)
+	  print(tekst)
+}
+```
+
+---
+
+## (1) Building (2) installing and (3) loading a package
+
+- Building and installing
+
+2a. Option A (IDE)
+	- Install Package: 'Ctrl + Shift + B'
+	- MSB104TimeSeries&lt;your_init&gt;::hello()
+
+2b. Option B (Console)
+1. devtools::document()
+1. devtools::install()
+1. MSB104TimeSeries&amp;lt;your_init&amp;gt;::hello(&lt;your_init&gt;)
+A built package can be found in one of these paths
+
+
+```r
+.libPaths()
+```
+
+```
+## [1] "/home/joernih/R/x86_64-pc-linux-gnu-library/4.0"
+## [2] "/usr/lib/R/library"
+```
+
+---
+
+- Loading
+
+
+```r
+library(MMSB104TimeSeries&lt;your_init&gt;)
+### Package consists of the following functions
+ls(package:MMSB104TimeSeries&lt;your_init&gt;)
+```
+
+[Package development (cheat sheet)](https://github.com/rstudio/cheatsheets/blob/master/package-development.pdf)
+
+---
+
+## Package metadata (DESCRIPTION)
+
+The job of the DESCRIPTION file is to store important metadata about your package
+
+
+```r
+Package: MSB104TimeSeriesJIH
+Title: For the time series part of the MSB104 course in econometrics
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jørn I.",
+           family = "Halvorsen",
+           role = c("aut", "cre"),
+           email = "jiha@hvl.no",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+LazyData: true
+```
+
+---
+
+## Object documentation (man/)
+
+Documentation is one of the most important aspects of a good package. 
+
+- Without it users won’t know how to use your package. 
+- Documentation is also useful for future-you (so you remember what your functions were supposed to do)
+- For developers extending your package.
+
+---
+
+## Data (data/)
+
+
+```r
+usethis::use_data_raw()
+file.edit("data-raw/hello_world_data.R")
+```
+
+- Change the DATASET.R file to
+
+```r
+## code to prepare `DATASET` dataset goes here
+hw_iris &lt;- iris
+usethis::use_data(hw_iris, overwrite = TRUE)
+```
+- Source the code
+- (1) Build, (2) install and (3) load the package
+- Run data(package='MSB104TimeSeries&lt;your_init&gt;')
+
+- You could also try out the data() function
+
+---
+
+## Some other componnents
+
+### Testing (tests/)
+
+Testing is a vital part of package development. 
++ It ensures that your code does what you want it to do. 
+- Testing, however, adds an additional step to your development workflow.
+
+"I started using automated tests because I discovered I was spending too much time re-fixing bugs that I’d already fixed before."
+&gt; Hadley (2015)
+
+---
+
+### Installed files (inst/)
+
+When a package is built, everything in inst/ is copied into the top-level package directory.
+
+You are free to put anything you like in inst/ with one caution: subdirectory with the same name as an existing directory. 
+
+- inst/extdata: additional external data for examples and vignettes. See external data for more details
+- inst/java, 
+- inst/python etc. See other languages.
+
+For MSB104TimeSeriesJIH you will find the Rmd code for this xaringan-presentation in
+- inst/docs/package_presentationJIH.Rmd
+
+Check if you are able to download this package in comple the presentation on your own computer.
+
+```
+
+### vignettes (vignettes/)
+
+Many existing packages have vignettes. 
+- You can see all the installed vignettes with
+
+
+```r
+vign &lt;- browseVignettes(all=T) 
+names(vign)
+```
+
+- To see the vignette for a specific package, use the argument
+
+
+```r
+browseVignettes("dplyr")
+```
+
+- To make your own vignette
+
+
+```r
+usethis::use_vignette("hello_world")
+```
+
+---
+
+### Compiled code (src/)
+
+R is a high-level, expressive language. But that expressivity comes at a price: speed. That’s why incorporating a low-level, compiled language like C or C++ can powerfully complement your R code. While C and C++ often require more lines of code (and more careful thought) to solve the same problem, they can be orders of magnitude faster than R.
+
+---
+
+# 4. Build websites for your R-package
+
+## Configuration and building
+
+
+```r
+### Run once to configure your package to use pkgdown
+usethis::use_pkgdown()
+## Run to build the website
+pkgdown::build_site()
+```
+
+---
+
+## Deploying the webpage
+
+1. Commit and push your changes to the remote (note: make sure that docs is not included in the .gitignore file)
+1. Login on to [github](https://github.com) or [gitlab](https://gitlab.com) account, navigate to your repo and select “Settings”.
+1. Scroll down to find the “Git Hub pages” subsection and, under “Source”, select “master branch/docs folder” (from this, you can see that it is fundamental that your website material is pushed to the master branch)
+1. click on the link of your website and… congratulations: you just published your new pkgdown website !
+
+---
+
+![](bilder/pkgdownR.png) 
+
+[My deployed github webpage should be deployed here](https://joernih.github.io/MSB104TimeSeriesJIH/)
+
+More material on how to go about and configure your own web page can be found here
+
+-[Hadley's description of his own package](https://pkgdown.r-lib.org/)
+
+-[Building a website with pkgdown: a short guide](https://www.r-bloggers.com/2017/08/building-a-website-with-pkgdown-a-short-guide/)
+
+---
+
+### Application 1: Hello world!
+
+1. Show part of the iris dataset and implement the the hello function in the hello_world vignette
+1. Preview the document in the browser from you own local machine
+1. Deploy the webpage to the [github](https://github.com) or [gitlab](https://gitlab.com) repository
+
+---
+
+### Application 2: Covid-19 time series analysis (task for xx.xx.2021)**
+
+Start first by generating the following vignette
+
+
+```r
+usethis::use_vignette("Covid19TimeSeriesAnalysis")
+```
+
+1. To the data-raw folder, add the dataset file that you one the next slide
+1. To the R-folder, add the function found on the slide after the dataset file
+1. In the *Covid19TimeSeriesAnalysis.Rmd*, employ the *plot19ts* function in the Rmakdown document 
+1. Preview the document in the browser from you own local machine (pkgdown::build_site)
+1. Deploy the webpage to the [github](https://github.com) or [gitlab](https://gitlab.com) repository
+
+---
+
+
+
+**Covid 19-data transformation**
+
+
+```r
+library(COVID19)
+library(dplyr)
+library(lubridate)
+library(zoo)
+
+all_data &lt;- COVID19::covid19(verbose = F)
+unique(all_data$id)
+
+sel_cou &lt;- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK','IND')
+
+COVID19 &lt;- all_data %&gt;% dplyr::filter(id%in%sel_cou) %&gt;%
+# Datering
+dplyr::mutate(year=as.factor(lubridate::year(date))) %&gt;%
+dplyr::mutate(dayofyear=lubridate::yday(date)) %&gt;%
+dplyr::select(id,date,confirmed,deaths,hosp,dayofyear,year,population) %&gt;%
+dplyr::mutate(c_deaths=deaths-dplyr::lag(deaths)) %&gt;%
+dplyr::mutate(ma_deaths=round(rollmean(c_deaths,k=7, fill=NA)),digits=4) %&gt;%
+dplyr::mutate(ma_deaths_perc=(ma_deaths/population)*100000) 
+usethis::use_data(COVID19, overwrite = TRUE)
+```
+
+---
+
+**Covid 19 plot functions**
+
+
+```r
+#' This is a function for producing Covid-19 time series plot
+#' @importFrom magrittr %&gt;%
+#' @export
+plot19ts &lt;- function(sel_cou=NULL,covid19df=NULL, yvar='hosp'){
+	
+	c_cdf &lt;- sel_cou %&gt;% purrr::map(function(x,df_c=covid19df){
+		out &lt;- df_c %&gt;% dplyr::filter(id==x)
+		gout &lt;- ggplot(out, aes(x=dayofyear,y=hosp, color=year)) + 
+			geom_point() + 
+			geom_line() + 
+			labs(title=x,"Day during the year", y="Hospitlalized")
+	})
+}
+```
+
+---
+
+**Covid 19 plot vignette**
+
+![](bilder/covid19vignette.png) 
+
+
+---
+
+## References
+
+
+
+&lt;a name=bib-parkerhilary&gt;&lt;/a&gt;[Parker,
+H.](#cite-parkerhilary) (2014). _Writing an
+R package from scratch_.
+
+&lt;a name=bib-wickham2015r&gt;&lt;/a&gt;[Wickham,
+H.](#cite-wickham2015r) (2015). _R packages:
+organize, test, document, and share your
+code_. " O'Reilly Media, Inc.".
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

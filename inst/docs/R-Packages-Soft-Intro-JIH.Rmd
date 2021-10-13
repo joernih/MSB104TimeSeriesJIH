@@ -1,0 +1,556 @@
+---
+title: "R-packages"
+subtitle: "A soft introduction"
+author: "Jørn I. Halvorsen"
+date: "2018/06/1 (updated: `r Sys.Date()`)"
+###output:
+###  html_notebook:
+###    toc: yes
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+,     countIncrementalSlides: false
+tasklist: check path rstudio/R, toc, new png for repo, ??, ref
+---
+
+```{r, eval=T, include=F}
+library(RefManageR)
+BibOptions(check.entries = FALSE, bib.style = "authoryear", style = "markdown",
+           dashed = TRUE)
+bib <- ReadBib('abc.bib')
+```
+
+```{r xaringan-tile-view, echo=FALSE, message=F, warning=F}
+library(xaringan)
+xaringanExtra::use_editable(expires = 1)
+xaringanExtra::use_tile_view()
+#xaringanExtra::use_share_again()
+xaringanExtra::use_scribble()
+xaringanExtra::use_webcam()
+#xaringanExtra::use_slide_tone()
+xaringanExtra::use_panelset()
+```
+
+```{r, eval=F, include=F}
+filen <- "R-Packages-Soft-Intro-JIH.Rmd"
+xaringan::inf_mr(filen)
+rmarkdown::render("R-Packages-Soft-Intro-JIH.Rmd")
+system('brave 03-R-Packages-Soft.html')
+```
+
+# Introduction
+
+“Seriously, it doesn’t have to be about sharing your code (although that is an added benefit!). It is about saving yourself time.” Organising code in a package makes your life easier because packages come with conventions.
+> [Hilary Parker (2014)](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
+
+`r RefManageR::Citet(bib, "parkerhilary")` 
+
+---
+
+## Start up knowledge
+- [Writing-an-r-package-from-scratch (Hilary Parker)](https://www.hvitfeldt.me/blog/usethis-workflow-for-package-development/)
+
+## General documentation
+- [R-packages, `r RefManageR::Citet(bib, "wickham2015r")` 1st edition](http://r-pkgs.had.co.nz)
+- [R-packages, 2nd edition](https://r-pkgs.org/preface.html)
+- [Package development](/cheatsheets/cheatsheetpackage-development.pdf)
+
+Some sub-themes in relation to this that we will touch:
+
+.pull-left[
+
+**Data wrangling**
+
+- [dplyr](https://rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+]
+
+.pull-right[
+
+**Graphical representation**
+
+- [ggplot2](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+
+]
+
+.pull-left[
+
+]
+
+**Webpage development and presentations**
+
+- [pgkdown](https://pkgdown.r-lib.org/)
+- [xaringan](https://github.com/yihui/xaringan)
+- [xaringanExtra](https://github.com/gadenbuie/xaringanExtra)
+
+---
+
+```{r include=FALSE}
+library("magrittr")
+
+toc <- readLines(filen)
+tocc <- character()
+
+for (i in 1:length(toc)) {
+  if(substr(toc[i][1], 1, 2) == "# ") {
+    toc[i] <- gsub("# ", "", toc[i], fixed = TRUE) %>% 
+                gsub("#", "", ., fixed = TRUE) %>%
+                paste0("     ", .)
+    tocc <- append(tocc, toc[i])
+  }
+}
+
+text <- paste(tocc[-1], "\n")
+yy <- seq(.9, 0, length = length(text))
+```
+
+## Outline of today's lecture 
+
+```{r echo=FALSE}
+plot(x = rep(0.2, length(text)), y = yy * 1.035, 
+     xlim = c(0, 1), ylim = c(-0.1, 1), xlab = "", ylab = "", axes = FALSE, 
+     col = "#056EA7", type = "p", pch = 16)
+text(x = 0.2, y = yy, labels = text, adj = 0, col = "black")
+```
+
+---
+
+# 1. Creating a package
+
+## Before inititating the package
+
+**System setup**
+
+```{r eval=FALSE, include=TRUE}
+install.packages(c("devtools", "roxygen2","usethis",
+"rstudioapi", "testthat", "knitr", "available", "pgkdown","purrr"))
+```
+
+**For running this presentation**
+```{r eval=FALSE, include=TRUE}
+install.packages(c("xaringan"))
+devtools::install_github("gadenbuie/xaringanExtra")
+```
+
+---
+
+There are three formal requirements:
+
+- The name can only consist of letters, numbers, and period. Must not start with a number
+- It must start with a letter
+- It cannot end with a period
+
+- Pakkenavn:
+  - MSB104TimeSeries&lt;your_init&gt;
+    
+---
+
+**RStudio IDE** (option A)
+
+File -> New Project -> New Directory -> R package
+![](bilder/packagecreate.png) 
+
+---
+
+**Console** (option B)
+
+```{r eval=FALSE, include=TRUE}
+package_name <- 'MSB104TimeSeries<YourInit>'
+usethis::create_package(package_name, rstudio=T, open=T)
+```
+
+---
+
+# 2. Publishing the package to a repository 
+
+```{bash eval=FALSE, include=TRUE}
+git init --initial-branch=main
+git add --all
+git commit -m "first commit"
+```
+
+Now, for either of the options
+1. Go to your own [github](https://github.com) or [gitlab](https://gitlab.com) account
+1. Create a new project (public) with the same name: MSB104TimeSeries&lt;your_init&gt;  
+
+1. After that, run the following commands from your RStudio terminal
+
+```{bash eval=FALSE, include=TRUE}
+a) Github
+git remote add origin https://github.com/<your_github_account>/MSB104TimeSeries<your_init>.git
+b) Gitlab
+git remote add origin https://gilab.com/<your_github_account>/MSB104TimeSeries<your_init>.git
+git branch -M main
+git push -u origin main
+```
+
+---
+
+Should look something like this
+
+![](bilder/gitproject.png)
+
+---
+
+# 3. Overview of the different package components
+
+In general consist of:
+
+- Code (R/)
+- Package metadata (DESCRIPTION)
+- Object documentation (man/)
+- Vignettes (vignettes/)
+- Testing (tests/)
+- Namespaces (NAMESPACE)
+- Data (data/)
+- Compiled code (src/)
+- Installed files (inst/)
+- Other components
+
+Note: In addition to this, we have also the option to create our own folders
+
+---
+
+Let's us now first have a closer look at some of these general components:
+
+- Code (R/)
+- Namespaces (NAMESPACE)
+- Package metadata (DESCRIPTION)
+- Object documentation (man/)
+- Data (data/)
+- Namespaces (NAMESPACE)
+
+---
+
+## Code (R/)
+
+The first principle of using a package is that all R code goes in R/.
+
+We can open our hello function directly from the console by using
+- usethis::use_r("hello")
+
+Which gives us
+
+```{r}
+hello <- function() {
+	  print("Hello, world! My name is <insert your name here> ")
+}
+```
+
+Change this to
+
+```{r}
+#' This is a hello function with a name argument
+#' @export
+hello <- function(name=NULL) {
+          tekst <- paste("Hello world! My name is", name)
+	  print(tekst)
+}
+```
+
+---
+
+## Namespaces (NAMESPACE)
+
+Namespaces make your packages self-contained in two ways: the imports and the exports. The imports defines how a function in one package finds a function in another.
+
+The exports helps you avoid conflicts with other packages by specifying which functions are available outside of your package (internal functions are available only within your package and can’t easily be used by another package). 
+
+---
+
+### With RStudio IDE
+
+- Add roxygen comments to your .R files.
+  - Roxygen comments start with #' and come before a function. All the roxygen lines preceding a function are called a block. Each line should be wrapped in the same way as your code, normally at 80 characters.
+
+- To make it simple in the beginning, we just add a couple of lines:
+
+```{r, eval=F, include=T}
+#' This is a hello function with a name argument
+#' @export
+hello <- function(name=NULL) {
+          tekst <- paste("Hello world! My name is", name)
+	  print(tekst)
+}
+```
+
+---
+
+## (1) Building (2) installing and (3) loading a package
+
+- Building and installing
+
+2a. Option A (IDE)
+	- Install Package: 'Ctrl + Shift + B'
+	- MSB104TimeSeries<your_init>::hello()
+
+2b. Option B (Console)
+1. devtools::document()
+1. devtools::install()
+1. MSB104TimeSeries&lt;your_init&gt;::hello(<your_init>)
+A built package can be found in one of these paths
+
+```{r}
+.libPaths()
+```
+
+---
+
+- Loading
+
+```{r, eval=F}
+library(MMSB104TimeSeries<your_init>)
+### Package consists of the following functions
+ls(package:MMSB104TimeSeries<your_init>)
+```
+
+[Package development (cheat sheet)](https://github.com/rstudio/cheatsheets/blob/master/package-development.pdf)
+
+---
+
+## Package metadata (DESCRIPTION)
+
+The job of the DESCRIPTION file is to store important metadata about your package
+
+```{r eval=FALSE, include=TRUE}
+Package: MSB104TimeSeriesJIH
+Title: For the time series part of the MSB104 course in econometrics
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jørn I.",
+           family = "Halvorsen",
+           role = c("aut", "cre"),
+           email = "jiha@hvl.no",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+LazyData: true
+```
+
+---
+
+## Object documentation (man/)
+
+Documentation is one of the most important aspects of a good package. 
+
+- Without it users won’t know how to use your package. 
+- Documentation is also useful for future-you (so you remember what your functions were supposed to do)
+- For developers extending your package.
+
+---
+
+## Data (data/)
+
+```{r eval=FALSE, include=TRUE}
+usethis::use_data_raw()
+file.edit("data-raw/hello_world_data.R")
+```
+
+- Change the DATASET.R file to
+```{r, eval=F}
+## code to prepare `DATASET` dataset goes here
+hw_iris <- iris
+usethis::use_data(hw_iris, overwrite = TRUE)
+```
+- Source the code
+- (1) Build, (2) install and (3) load the package
+- Run data(package='MSB104TimeSeries<your_init>')
+
+- You could also try out the data() function
+
+---
+
+## Some other componnents
+
+### Testing (tests/)
+
+Testing is a vital part of package development. 
++ It ensures that your code does what you want it to do. 
+- Testing, however, adds an additional step to your development workflow.
+
+"I started using automated tests because I discovered I was spending too much time re-fixing bugs that I’d already fixed before."
+> Hadley (2015)
+
+---
+
+### Installed files (inst/)
+
+When a package is built, everything in inst/ is copied into the top-level package directory.
+
+You are free to put anything you like in inst/ with one caution: subdirectory with the same name as an existing directory. 
+
+- inst/extdata: additional external data for examples and vignettes. See external data for more details
+- inst/java, 
+- inst/python etc. See other languages.
+
+For MSB104TimeSeriesJIH you will find the Rmd code for this xaringan-presentation in
+- inst/docs/package_presentationJIH.Rmd
+
+Check if you are able to download this package in comple the presentation on your own computer.
+
+```
+
+### vignettes (vignettes/)
+
+Many existing packages have vignettes. 
+- You can see all the installed vignettes with
+
+```{r, eval=F, include=T}
+vign <- browseVignettes(all=T) 
+names(vign)
+```
+
+- To see the vignette for a specific package, use the argument
+
+```{r eval=FALSE, include=TRUE}
+browseVignettes("dplyr")
+```
+
+- To make your own vignette
+
+```{r eval=FALSE, include=TRUE}
+usethis::use_vignette("application1_hello_world")
+```
+
+---
+
+### Compiled code (src/)
+
+R is a high-level, expressive language. But that expressivity comes at a price: speed. That’s why incorporating a low-level, compiled language like C or C++ can powerfully complement your R code. While C and C++ often require more lines of code (and more careful thought) to solve the same problem, they can be orders of magnitude faster than R.
+
+---
+
+# 4. Build websites for your R-package
+
+## Configuration and building
+
+```{r eval=FALSE, include=TRUE}
+### Run once to configure your package to use pkgdown
+usethis::use_pkgdown()
+## Run to build the website
+pkgdown::build_site()
+```
+
+---
+
+## Deploying the webpage
+
+1. Commit and push your changes to the remote (note: make sure that docs is not included in the .gitignore file)
+1. Login on to [github](https://github.com) or [gitlab](https://gitlab.com) account, navigate to your repo and select “Settings”.
+1. Scroll down to find the “Git Hub pages” subsection and, under “Source”, select “master branch/docs folder” (from this, you can see that it is fundamental that your website material is pushed to the master branch)
+1. click on the link of your website and… congratulations: you just published your new pkgdown website !
+
+---
+
+![](bilder/pkgdownR.png) 
+
+[My deployed github webpage should be deployed here](https://joernih.github.io/MSB104TimeSeriesJIH/)
+
+More material on how to go about and configure your own web page can be found here
+
+-[Hadley's description of his own package](https://pkgdown.r-lib.org/)
+
+-[Building a website with pkgdown: a short guide](https://www.r-bloggers.com/2017/08/building-a-website-with-pkgdown-a-short-guide/)
+
+---
+
+### Application 1: Hello world!
+
+1. Show part of the iris dataset and implement the the hello function in the hello_world vignette
+1. Preview the document in the browser from you own local machine
+1. Deploy the webpage to the [github](https://github.com) or [gitlab](https://gitlab.com) repository
+
+---
+
+### Application 2: Covid-19 time series analysis (task for xx.xx.2021)**
+
+Start first by generating the following vignette
+
+```{r eval=FALSE, include=TRUE}
+usethis::use_vignette("Covid19TimeSeriesAnalysis")
+```
+
+1. To the data-raw folder, add the dataset file that you one the next slide
+1. To the R-folder, add the function found on the slide after the dataset file
+1. In the *Covid19TimeSeriesAnalysis.Rmd*, employ the *plot19ts* function in the Rmakdown document 
+1. Preview the document in the browser from you own local machine (pkgdown::build_site)
+1. Deploy the webpage to the [github](https://github.com) or [gitlab](https://gitlab.com) repository
+
+---
+
+
+
+**Covid 19-data transformation**
+
+```{r eval=FALSE, include=TRUE}
+library(COVID19)
+library(dplyr)
+library(lubridate)
+library(zoo)
+
+all_data <- COVID19::covid19(verbose = F)
+unique(all_data$id)
+
+sel_cou <- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK','IND')
+
+COVID19 <- all_data %>% dplyr::filter(id%in%sel_cou) %>%
+# Datering
+dplyr::mutate(year=as.factor(lubridate::year(date))) %>%
+dplyr::mutate(dayofyear=lubridate::yday(date)) %>%
+dplyr::select(id,date,confirmed,deaths,hosp,dayofyear,year,population) %>%
+dplyr::mutate(c_deaths=deaths-dplyr::lag(deaths)) %>%
+dplyr::mutate(ma_deaths=round(rollmean(c_deaths,k=7, fill=NA)),digits=4) %>%
+dplyr::mutate(ma_deaths_perc=(ma_deaths/population)*100000) 
+usethis::use_data(COVID19, overwrite = TRUE)
+```
+
+---
+
+**Covid 19 plot functions**
+
+```{r eval=FALSE, include=TRUE}
+#' This is a function for producing Covid-19 time series plot
+#' @importFrom magrittr %>%
+#' @export
+plot19ts <- function(sel_cou=NULL,covid19df=NULL, yvar='hosp'){
+	
+	c_cdf <- sel_cou %>% purrr::map(function(x,df_c=covid19df){
+		out <- df_c %>% dplyr::filter(id==x)
+		gout <- ggplot(out, aes(x=dayofyear,y=hosp, color=year)) + 
+			geom_point() + 
+			geom_line() + 
+			labs(title=x,"Day during the year", y="Hospitlalized")
+	})
+}
+```
+
+---
+
+**Covid 19 plot vignette**
+
+```{r eval=FALSE, include=TRUE}
+usethis::use_vignette("application2_covid19.Rmd")
+```
+
+![](bilder/covid19vignette.png) 
+
+
+---
+
+## References
+
+
+
+```{r, results='asis', echo=FALSE}
+PrintBibliography(bib)
+```
+
+```{r, eval=T, echo=F}
+knitr::knit_exit()
+```
+

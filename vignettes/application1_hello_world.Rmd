@@ -1,0 +1,21 @@
+---
+title: "application1_hello_world"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{application1_hello_world}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(MSB104TimeSeriesJIH)
+```
+
+Test new function 
