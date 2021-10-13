@@ -7,7 +7,7 @@
     <script src="libs/header-attrs-2.10/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
-    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x6b7ebac53354232885cb8d6c6e26dbc","expires":1}</script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"cf7488d1fb07438ba0c3b50d1e795a08","expires":1}</script>
     <script src="libs/himalaya-1.1.0/himalaya.js"></script>
     <script src="libs/js-cookie-3.0.0/js.cookie.js"></script>
     <link href="libs/editable-0.2.6/editable.css" rel="stylesheet" />
@@ -46,7 +46,7 @@ class: center, middle, inverse, title-slide
 “Seriously, it doesn’t have to be about sharing your code (although that is an added benefit!). It is about saving yourself time.” Organising code in a package makes your life easier because packages come with conventions.
 &gt; [Hilary Parker (2014)](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/)
 
-[Parker (2014)](#bib-parkerhilary) 
+&lt;a name=cite-parkerhilary&gt;&lt;/a&gt;[Parker (2014)](#bib-parkerhilary) 
 
 ---
 
@@ -54,7 +54,7 @@ class: center, middle, inverse, title-slide
 - [Writing-an-r-package-from-scratch (Hilary Parker)](https://www.hvitfeldt.me/blog/usethis-workflow-for-package-development/)
 
 ## General documentation
-- [R-packages, [Wickham (2015)](#bib-wickham2015r) 1st edition](http://r-pkgs.had.co.nz)
+- [R-packages, &lt;a name=cite-wickham2015r&gt;&lt;/a&gt;[Wickham (2015)](#bib-wickham2015r) 1st edition](http://r-pkgs.had.co.nz)
 - [R-packages, 2nd edition](https://r-pkgs.org/preface.html)
 - [Package development](/cheatsheets/cheatsheetpackage-development.pdf)
 
@@ -220,8 +220,7 @@ Which gives us
 
 ```r
 hello &lt;- function() {
-          tekst &lt;- paste("Hello world!")
-	  print(tekst)
+	  print("Hello, world! My name is &lt;insert your name here&gt; ")
 }
 ```
 
@@ -229,6 +228,8 @@ Change this to
 
 
 ```r
+#' This is a hello function with a name argument
+#' @export
 hello &lt;- function(name=NULL) {
           tekst &lt;- paste("Hello world! My name is", name)
 	  print(tekst)
@@ -412,7 +413,7 @@ browseVignettes("dplyr")
 
 
 ```r
-usethis::use_vignette("hello_world")
+usethis::use_vignette("application1_hello_world")
 ```
 
 ---
@@ -535,6 +536,11 @@ plot19ts &lt;- function(sel_cou=NULL,covid19df=NULL, yvar='hosp'){
 
 **Covid 19 plot vignette**
 
+
+```r
+usethis::use_vignette("application2_covid19_analysis")
+```
+
 ![](bilder/covid19vignette.png) 
 
 
@@ -552,7 +558,6 @@ R package from scratch_.
 H.](#cite-wickham2015r) (2015). _R packages:
 organize, test, document, and share your
 code_. " O'Reilly Media, Inc.".
-
 
 
     </textarea>

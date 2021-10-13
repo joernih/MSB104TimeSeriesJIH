@@ -12,7 +12,7 @@ output:
     nature:
       highlightStyle: github
       highlightLines: true
-,     countIncrementalSlides: false
+      countIncrementalSlides: false
 tasklist: check path rstudio/R, toc, new png for repo, ??, ref
 ---
 
@@ -37,7 +37,7 @@ xaringanExtra::use_panelset()
 ```{r, eval=F, include=F}
 filen <- "R-Packages-Soft-Intro-JIH.Rmd"
 xaringan::inf_mr(filen)
-rmarkdown::render("R-Packages-Soft-Intro-JIH.Rmd")
+rmarkdown::render(filen)
 system('brave 03-R-Packages-Soft.html')
 ```
 
@@ -550,7 +550,4 @@ usethis::use_vignette("application2_covid19_analysis")
 PrintBibliography(bib)
 ```
 
-```{r, eval=T, echo=F}
-knitr::knit_exit()
-```
 
