@@ -21,6 +21,6 @@ library(MSB104TimeSeriesJIH)
 Test new function:
 
 ```{r}
-MSB104TimeSeriesJIH::hello(name="Jørn")
+MSB104TimeSeriesJIH::hello(name="Jørn",ettern="Halvorsen")
 ```
 

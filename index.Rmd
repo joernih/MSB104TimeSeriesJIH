@@ -11,16 +11,16 @@ output: github_document
 # Application 2
 ## Dplyr
 ## Diskusjon
-- Cost benefit
-- Myndigehter
-- Ikke myndigheter
+# - Cost benefit
+# - Myndigehter
+# - Ikke myndigheter
 ## Utvidet modell
 
 # Andre del
 ## Oversikt over temaene
 ## Tidligere eksamensoppgavern
 ## Neste gang
-## Jobbe på egenhånd
+## Jobbe på egenhånd ()
 ```
 
 ```{r, eval=F, echo=F}
