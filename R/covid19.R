@@ -19,4 +19,4 @@ plot19ts <- function(sel_cou=NULL,covid19df=NULL, yvar='hosp'){
 #covhos <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='hosp')
 #covhos <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='ma_deaths')
 #covhos <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='ma_deaths_perc')
-#gridExtra::grid.arrange(grobs=covhos,)
+#gridExtra::grid.arrange(grobs=covhos)

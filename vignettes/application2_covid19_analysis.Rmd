@@ -21,6 +21,40 @@ library(dplyr)
 library(gridExtra)
 ```
 
+## Faktorer
+### Myndighetene
+- Nedstengning ("lockdown")
+  - innreise- og utreiseforbud
+- Antall personer som kan møtes
+- Hjemmekontor
+- Mundbind
+- Social distancing
+- Testing
+- Vaksine (kontrollert varierende grad)
+
+### Private
+- Social distancing
+- Mundbind
+- Antibac
+- 
+
+### Naturgitte
+- Influensasesong
+  - årstidene
+
+Hypoteste Årsak(?):
+Solys -> D-vitaminer -> Styrker immunforsvaret
+
+
+
+
+# Cost-Benefit tankegang
+
+< chn, aus, nwx-------------------- usa --      nor         swe, bel >
+
+
+------------------------------------
+
 ## Covid-19 and hospitalization
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
@@ -34,23 +68,15 @@ covhos
 
 ## Covid-19 and deaths?
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 covdea <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='covdea')
 #grid.arrange(grobs=covdea)
 covdea
 ```
 ## Covid-19 and deaths per 100k?
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
 covdeak <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='ma_deaths_perc')
 grid.arrange(grobs=covdeak)
 covdeak
 ```
-
-
-# Hypoteser:
-
-## Government
-
-## Mother nature
-
 
