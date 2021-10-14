@@ -24,6 +24,7 @@ bib <- ReadBib('abc.bib')
 ```
 
 ```{r xaringan-tile-view, echo=FALSE, message=F, warning=F}
+filen <- "R-Packages-Soft-Intro-JIH.Rmd"
 library(xaringan)
 xaringanExtra::use_editable(expires = 1)
 xaringanExtra::use_tile_view()
@@ -35,7 +36,6 @@ xaringanExtra::use_panelset()
 ```
 
 ```{r, eval=F, include=F}
-filen <- "R-Packages-Soft-Intro-JIH.Rmd"
 xaringan::inf_mr(filen)
 rmarkdown::render(filen)
 system('brave 03-R-Packages-Soft.html')
