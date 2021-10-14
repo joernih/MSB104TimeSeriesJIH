@@ -6,13 +6,31 @@ output: github_document
 ---
 
 ```{r, eval=F, echo=F}
+# Første del
+# Datoer
+# Application 2
+## Dplyr
+## Diskusjon
+- Cost benefit
+- Myndigehter
+- Ikke myndigheter
+## Utvidet modell
+
+# Andre del
+## Oversikt over temaene
+## Tidligere eksamensoppgavern
+## Neste gang
+## Jobbe på egenhånd
+```
+
+```{r, eval=F, echo=F}
 devtools::document()
 devtools::install()
 ```
 
 ```{r, eval=F, echo=F}
 rmarkdown::render("index.Rmd")
-rmarkdown::render("readme.Rmd")
+rmarkdown::render("README.Rmd")
 pkgdown::build_site()
 pkgdown::build_home()
 pkgdown::build_articles()
