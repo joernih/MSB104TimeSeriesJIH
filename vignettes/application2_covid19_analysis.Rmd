@@ -27,8 +27,8 @@ library(gridExtra)
 # data(package='MSB104TimeSeriesJIH')
 covidts <- MSB104TimeSeriesJIH::COVID19
 sel_cou <- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK')
-#grid.arrange(grobs=a)
 covdea <- plot19ts(sel_cou=sel_cou,covid19df=covidts)
+#grid.arrange(grobs=covdea)
 covdea
 ```
 
