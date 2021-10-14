@@ -27,13 +27,24 @@ library(gridExtra)
 # data(package='MSB104TimeSeriesJIH')
 covidts <- MSB104TimeSeriesJIH::COVID19
 sel_cou <- c('NOR','ITA','SWE','GBR','ISR','FIN','CZE','ESP','USA','CAN','SVK')
-covdea <- plot19ts(sel_cou=sel_cou,covid19df=covidts)
-#grid.arrange(grobs=covdea)
-covdea
+covhos <- plot19ts(sel_cou=sel_cou,covid19df=covidts)
+grid.arrange(grobs=covhos)
+covhos
 ```
 
 ## Covid-19 and deaths?
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+covdea <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='covdea')
+#grid.arrange(grobs=covdea)
+covdea
+```
 ## Covid-19 and deaths per 100k?
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+covdeak <- plot19ts(sel_cou=sel_cou,covid19df=covidts,yvar='ma_deaths_perc')
+grid.arrange(grobs=covdeak)
+covdeak
+```
 
 
 # Hypoteser:

@@ -8,7 +8,7 @@ plot19ts <- function(sel_cou=NULL,covid19df=NULL, yvar='hosp'){
 		gout <- ggplot(out, aes(x=dayofyear,y=hosp, color=year)) + 
 			geom_point() + 
 			geom_line() + 
-			labs(title=x,"Day during the year", y="Hospitlalized")
+			labs(title=x,"Day during the year", y=yvar)
 	})
 }
 
