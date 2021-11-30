@@ -31,7 +31,8 @@ devtools::install()
 ```{r, eval=F, echo=F}
 rmarkdown::render("index.Rmd")
 rmarkdown::render("README.Rmd")
-pkgdown::build_site()
 pkgdown::build_home()
+
+pkgdown::build_site()
 pkgdown::build_articles()
 ```
